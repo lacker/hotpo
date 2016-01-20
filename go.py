@@ -18,6 +18,16 @@ A feature can appear more than once.
 def features(n):
   return substrings('a{0:b}z'.format(n))
 
+
+class Vector:
+  '''Make a vector by counting features.'''
+  def __init__(self, feats):
+    # The components maps features to a coefficient.
+    self.components = {}
+    for f in feats:
+      self.components[f] = self.components.get(f, 0) + 1
+
+
 def main():
   print substrings('football')
   
