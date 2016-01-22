@@ -32,7 +32,11 @@ def diff(x):
   while xprime % 2 == 0:
     xprime /= 2
 
-  # TODO: other logic here
+  # v and vprime are the feature vectors for x and -xprime
+  v = Vector((b, 1) for b in features(x))
+  vprime = Vector((b, -1) for b in features(xprime))
+
+  return v + vprime
   
   
 class Vector:
