@@ -65,7 +65,13 @@ class Vector:
 
   def __str__(self):
     return '\n'.join(map(str, self.components.items()))
-    
+
+  def dot(self, other):
+    answer = 0
+    for f, v in self.components.items():
+      answer += v * other.components.get(f, 0)
+    return answer
+
 
 def main():
   print diff(10)
