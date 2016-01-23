@@ -24,7 +24,7 @@ x should be an odd number.
 
 Makes a vector for x-features minus (xprime)-features,
 where xprime has had one step of HOTPO applied.
-If we can find a +/- symmetric function of this vector that is always
+If we can find a linear function of this vector that is always
 positive, then that's the monovariant we are looking for.
 '''
 def diff(x):
@@ -46,8 +46,12 @@ class Vector:
   def __init__(self, pairs):
     # The components maps features to a coefficient.
     self.components = {}
-    for f, v in pairs
-      self.components[f] = self.components.get(f, 0) + v
+    for f, v in pairs:
+      new_value = self.components.get(f, 0) + v
+      if new_value == 0:
+        del self.components[f]
+      else:
+        self.components[f] = new_value
 
   def __add__(self, other):
     return Vector(self.components.items() + other.components.items())
@@ -55,13 +59,16 @@ class Vector:
   def scale(self, k):
     for key, val in self.components.items():
       self.components[key] = k * val
-
+      
   def __sub__(self, other):
     return self + other.scale(-1)
+
+  def __str__(self):
+    return '\n'.join(map(str, self.components.items()))
     
 
 def main():
-  print substrings('football')
+  print diff(10)
   
 
 if __name__ == '__main__':
