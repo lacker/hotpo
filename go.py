@@ -1,5 +1,7 @@
 #!/usr/bin/python  
 
+import math
+
 def gensubstrings(s):
   for i in range(len(s)):
     for j in range(i + 1, len(s) + 1):
@@ -28,6 +30,9 @@ If we can find a linear function of this vector that is always
 positive, then that's the monovariant we are looking for.
 '''
 def diff(x):
+  if x % 2 == 0:
+    raise 'x must be an odd number'
+  
   xprime = 3 * x + 1
   while xprime % 2 == 0:
     xprime /= 2
@@ -37,6 +42,28 @@ def diff(x):
   vprime = Vector((b, -1) for b in features(xprime))
 
   return v + vprime
+
+
+'''
+model is our model for the monovariant. The goal is that
+model.dot(diff(x)) should always be positive.
+example is diff(x) for some x.
+This returns:
+  (updated model, true) if it updates
+  (same model, false) if it doesn't
+I think this method is pretty close to the original perceptron method,
+except it rounds up to the next integer for coefficients.
+'''
+def update(model, example):
+  out = model.dot(example)
+  if out > 0:
+    return model, False
+
+  # Add some of example to the model to make up for the shortfall
+  shortfall = float(-out)
+  norm = example.dot(example)
+  needed = math.floor(shortfall / norm) + 1
+  return (model + example.scale(needed), True)
   
   
 class Vector:
@@ -74,7 +101,7 @@ class Vector:
 
 
 def main():
-  print diff(10)
+  print diff(11)
   
 
 if __name__ == '__main__':
