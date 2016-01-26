@@ -64,13 +64,29 @@ def update(model, example):
   norm = example.dot(example)
   needed = math.floor(shortfall / norm) + 1
   return (model + example.scale(needed), True)
-  
+
+
+'''
+Trains until they can all be classified positively.
+'''
+def train(samples):
+  model = Vector()
+  while True:
+    updates = 0
+    for sample in samples:
+      model, updated = update(model, sample)
+      if updated:
+        updates += 1
+    if updates == 0:
+      break
+    print 'learned from', updates, 'samples'
+  return model
   
 class Vector:
   '''
   For pairs, just treats each pair as a feature -> value entry.
   '''
-  def __init__(self, pairs):
+  def __init__(self, pairs=()):
     # The components maps features to a coefficient.
     self.components = {}
     for f, v in pairs:
