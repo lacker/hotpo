@@ -65,7 +65,12 @@ def update(model, example):
   needed = math.floor(shortfall / norm) + 1
   return (model + example.scale(needed), True)
 
-
+'''
+Returns the first n odd numbers.
+'''
+def odds(n):
+  return range(1, 2 * n, 2)
+  
 '''
 Trains until they can all be classified positively.
 '''
@@ -107,7 +112,12 @@ class Vector:
     return self + other.scale(-1)
 
   def __str__(self):
-    return '\n'.join(map(str, self.components.items()))
+    def keyfn(item):
+      key, count = item
+      return (len(key), key)
+    return '\n'.join(map(str, sorted(
+      self.components.items(),
+      key=keyfn)))
 
   def dot(self, other):
     answer = 0
