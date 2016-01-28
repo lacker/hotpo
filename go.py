@@ -41,7 +41,11 @@ def diff(x):
   v = Vector((b, 1) for b in features(x))
   vprime = Vector((b, -1) for b in features(xprime))
 
-  return v + vprime
+  answer = v + vprime
+  if len(answer) == 0:
+    raise Exception('diff(%d) has len zero' % x)
+  return answer
+  
 
 
 '''
@@ -62,14 +66,16 @@ def update(model, example):
   # Add some of example to the model to make up for the shortfall
   shortfall = float(-out)
   norm = example.dot(example)
+  if norm == 0:
+    raise Exception('norm is 0 for a training example')
   needed = math.floor(shortfall / norm) + 1
   return (model + example.scale(needed), True)
 
 '''
-Returns the first n odd numbers.
+Returns the first n odd numbers, starting at 3.
 '''
 def odds(n):
-  return range(1, 2 * n, 2)
+  return range(3, 2 * n + 2, 2)
   
 '''
 Trains until they can all be classified positively.
@@ -86,6 +92,7 @@ def train(samples):
       break
     print 'learned from', updates, 'samples'
   return model
+
   
 class Vector:
   '''
@@ -107,6 +114,9 @@ class Vector:
   def scale(self, k):
     for key, val in self.components.items():
       self.components[key] = k * val
+
+  def __len__(self):
+    return len(self.components)
       
   def __sub__(self, other):
     return self + other.scale(-1)
@@ -127,7 +137,11 @@ class Vector:
 
 
 def main():
-  print diff(11)
+  n = 100
+  odd_numbers = odds(n)
+  vectors = [diff(x) for x in odd_numbers]
+  m = train(vectors)
+  print m
   
 
 if __name__ == '__main__':
