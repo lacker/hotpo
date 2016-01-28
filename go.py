@@ -78,7 +78,7 @@ def odds(n):
   return range(3, 2 * n + 2, 2)
   
 '''
-Trains until they can all be classified positively.
+Trains until all the samples are classified positively.
 '''
 def train(samples):
   model = Vector()
