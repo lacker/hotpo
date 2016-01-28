@@ -114,6 +114,7 @@ class Vector:
   def scale(self, k):
     for key, val in self.components.items():
       self.components[key] = k * val
+    return self
 
   def __len__(self):
     return len(self.components)
