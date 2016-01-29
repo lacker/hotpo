@@ -2,13 +2,15 @@
 
 import math
 
-def gensubstrings(s):
+def gensubstrings(s, maxlen):
   for i in range(len(s)):
     for j in range(i + 1, len(s) + 1):
-      yield s[i:j]
+      t = s[i:j]
+      if len(t) <= maxlen:
+        yield t
 
-def substrings(s):
-  return list(gensubstrings(s))
+def substrings(s, maxlen):
+  return list(gensubstrings(s, maxlen))
 
 '''
 Lists out the features for n.
@@ -18,7 +20,8 @@ tokens.
 A feature can appear more than once.
 '''
 def features(n):
-  return substrings('a{0:b}z'.format(n))
+  maxlen = 6
+  return substrings('a{0:b}z'.format(n), maxlen)
 
 
 '''
