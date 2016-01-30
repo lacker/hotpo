@@ -145,16 +145,19 @@ class Vector:
 
 def main():
   n = 100
-  odd_numbers = odds(n)
   maxlen = 6
-  vectors = [diff(x, maxlen) for x in odd_numbers]
-  m, succeeded = train(vectors, 200)
 
-  print m
-  if succeeded:
-    print 'SUCCESS'
-  else:
-    print 'FAIL'
+  while True:
+    odd_numbers = odds(n)
+    vectors = [diff(x, maxlen) for x in odd_numbers]
+    m, succeeded = train(vectors, 2 * n)
+
+    if succeeded:
+      print (n, maxlen), 'SUCCESS'
+      n += 50
+    else:
+      print (n, maxlen), 'FAIL'
+      maxlen += 1
   
 
 if __name__ == '__main__':
