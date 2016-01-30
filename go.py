@@ -19,8 +19,7 @@ binary representation of n. 'a' and 'z' indicate beginning and end
 tokens.
 A feature can appear more than once.
 '''
-def features(n):
-  maxlen = 6
+def features(n, maxlen):
   return substrings('a{0:b}z'.format(n), maxlen)
 
 
@@ -32,7 +31,7 @@ where xprime has had one step of HOTPO applied.
 If we can find a linear function of this vector that is always
 positive, then that's the monovariant we are looking for.
 '''
-def diff(x):
+def diff(x, maxlen):
   if x % 2 == 0:
     raise 'x must be an odd number'
   
@@ -41,8 +40,8 @@ def diff(x):
     xprime /= 2
 
   # v and vprime are the feature vectors for x and -xprime
-  v = Vector((b, 1) for b in features(x))
-  vprime = Vector((b, -1) for b in features(xprime))
+  v = Vector((b, 1) for b in features(x, maxlen))
+  vprime = Vector((b, -1) for b in features(xprime, maxlen))
 
   answer = v + vprime
   if len(answer) == 0:
@@ -82,19 +81,23 @@ def odds(n):
   
 '''
 Trains until all the samples are classified positively.
+Does at most patience number of rounds.
+Returns model, converged
 '''
-def train(samples):
+def train(samples, patience):
   model = Vector()
-  while True:
+  passes = 0
+  while passes < patience:
     updates = 0
     for sample in samples:
       model, updated = update(model, sample)
       if updated:
         updates += 1
+    passes += 1
     if updates == 0:
       break
     print 'learned from', updates, 'samples'
-  return model
+  return model, (passes < patience)
 
   
 class Vector:
@@ -143,9 +146,15 @@ class Vector:
 def main():
   n = 100
   odd_numbers = odds(n)
-  vectors = [diff(x) for x in odd_numbers]
-  m = train(vectors)
+  maxlen = 6
+  vectors = [diff(x, maxlen) for x in odd_numbers]
+  m, succeeded = train(vectors, 200)
+
   print m
+  if succeeded:
+    print 'SUCCESS'
+  else:
+    print 'FAIL'
   
 
 if __name__ == '__main__':
