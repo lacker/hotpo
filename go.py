@@ -11,8 +11,22 @@
 # So a string like CTE means C(T(E(n)))
 
 RULES = {
+	# Hotpo rules
 	"CD": "C",
 	"CE": "CV",
+	
+	# Modular rules
+	"TD": "DT",
+	"TE": "EU",
+	"UD": "ET",
+	"UE": "DV",
+	"VD": "DU",
+	"VE": "EV",
+	
+	# Finiteness rules
+	"TZ": "Z",
+	"UZ": "EZ",
+	"VZ": "DEZ",
 }
 
 def step(s):
