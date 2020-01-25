@@ -29,7 +29,11 @@ RULES = {
 	"VZ": "DEZ",
 }
 
+# Do a single replacement on the string
 def step(s):
-	pass
+	for i, ch in enumerate(s):
+		pair = s[i:i+2]
+		# todo
+		
 
 print("hello")
