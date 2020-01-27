@@ -33,7 +33,10 @@ RULES = {
 def step(s):
 	for i, ch in enumerate(s):
 		pair = s[i:i+2]
-		# todo
+		if pair in RULES:
+			result = RULES[pair]
+			return s[:i] + result + s[i+2]
+	return s
 		
 
 print("hello")
