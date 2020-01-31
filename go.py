@@ -10,7 +10,7 @@
 # Concatenation means composition.
 # So a string like CTE means C(T(E(n)))
 
-RULES = {
+TOP_DOWN = {
 	# Hotpo rules
 	"CD": "C",
 	"CE": "CV",
@@ -30,11 +30,11 @@ RULES = {
 }
 
 # Do a single replacement on the string
-def step(s):
+def step(s, rules):
 	for i, ch in enumerate(s):
 		pair = s[i:i+2]
-		if pair in RULES:
-			result = RULES[pair]
+		if pair in rules:
+			result = rules[pair]
 			return s[:i] + result + s[i+2]
 	return s
 		
