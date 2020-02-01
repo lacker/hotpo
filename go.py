@@ -38,5 +38,11 @@ def step(s, rules):
 			return s[:i] + result + s[i+2]
 	return s
 		
+def fixed(s, rules):
+	while True:
+		new_s = step(s, rules)
+		if s == new_s:
+			return s
+		s = new_s
 
 print("hello")
