@@ -30,12 +30,12 @@ TOP_DOWN = {
 }
 
 # Do a single replacement on the string
-def step(s, rules=TOP_DOWN):
+def step(s, rules):
 	for i, ch in enumerate(s):
 		pair = s[i:i+2]
 		if pair in rules:
 			result = rules[pair]
-			return s[:i] + result + s[i+2]
+			return s[:i] + result + s[i+2:]
 	return s
 		
 def fixed(s, rules):
@@ -44,3 +44,5 @@ def fixed(s, rules):
 		if s == new_s:
 			return s
 		s = new_s
+		
+print(fixed("DEETUDEETU", TOP_DOWN))
