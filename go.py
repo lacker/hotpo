@@ -39,10 +39,14 @@ def step(s, rules):
 	return s
 		
 def fixed(s, rules):
+	seen = set()
 	while True:
+		seen.add(s)
 		new_s = step(s, rules)
 		if s == new_s:
 			return s
+		if new_s in seen:
+			raise Exception("loop")
 		s = new_s
 		
 print(fixed("DEETUDEETU", TOP_DOWN))
